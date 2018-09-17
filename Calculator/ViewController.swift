@@ -14,12 +14,12 @@ class ViewController: UIViewController {
     // optionals are special and defaulted to `nil`
     // because of the ! it is implicitly unwrapped
     // would crash if display = nil
-    @IBOutlet weak var display: UILabel!
+    @IBOutlet private weak var display: UILabel!
     
     // This needs to be initialized
-    var userIsInTheMiddleOfTyping = false
+    private var userIsInTheMiddleOfTyping = false
     
-    @IBAction func touchDigit(_ sender: UIButton) {
+    @IBAction private func touchDigit(_ sender: UIButton) {
         let digit = sender.currentTitle!
         if userIsInTheMiddleOfTyping {
             let textCurrentlyInDisplay = display.text!
@@ -30,13 +30,28 @@ class ViewController: UIViewController {
         userIsInTheMiddleOfTyping = true
     }
     
-    @IBAction func performOperation(_ sender: UIButton) {
+    // This is called a computed property
+    private var displayValue: Double {
+        get {
+            return Double(display.text!)!
+        }
+        set {
+            // newValue is a special word
+            display.text = String(newValue)
+        }
+    }
+    
+    private var brain = CalculatorBrain()
+    
+    @IBAction private func performOperation(_ sender: UIButton) {
+        if userIsInTheMiddleOfTyping {
+            brain.setOperand(operand: displayValue)
+        }
         userIsInTheMiddleOfTyping = false
         if let mathematicalSymbol = sender.currentTitle {
-            if mathematicalSymbol == "π" {
-                display.text = String(Double.pi)
-            }
+            brain.performOperation(symbol: mathematicalSymbol)
         }
+        displayValue = brain.result
     }
 }
 
