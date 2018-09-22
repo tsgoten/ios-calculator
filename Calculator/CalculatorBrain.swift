@@ -17,11 +17,11 @@ class CalculatorBrain {
     
     // "√"
     var operations: Dictionary<String, Double> = [
-        "π": Operation.Constant, //Double.pi,
-        "e": Operation.Constant, //M_E,
-        "√": Operation.UnaryOperation,
-         
-         
+        "π": Double.pi,
+//        "e": Operation.Constant, //M_E,
+//        "√": Operation.UnaryOperation,
+//
+//
     ]
     
     enum Operation {
